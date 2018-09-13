@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from gamboldesigns.net/Demo/HTML/profile-account-setting.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Jul 2018 03:36:36 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<title>WorkWise Html Template</title>
+
+	<style>
+		.tablaContainer{
+			margin: auto;
+		}
+		table{
+			width: 100%;
+		}
+		th, td {
+			text-align: left;
+			width: auto;
+		}
+		a.button {
+			background-color: #007bff;
+			color: #fff;
+			width: 100%;
+			margin: 10px 0 ;
+			border: none;
+			cursor: pointer;
+			border-radius: 10%;
+		}
+		a.button:hover{
+			text-decoration: none;
+			opacity: 0.8;
+			color: whitesmoke;
+		}
+	</style>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<link rel="stylesheet" type="text/css" href="/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/line-awesome.css">
+	<link rel="stylesheet" type="text/css" href="/css/line-awesome-font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" type="text/css" href="/lib/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="/lib/slick/slick-theme.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+</head>
+
+
+<body>
+<div class="wrapper">
+	<header>
+		<div class="container">
+			<div class="header-data">
+				<div class="logo">
+					<a href="/" title=""><img src="/images/logo.png" alt=""></a>
+				</div><!--logo end-->
+				<nav>
+					<ul>
+						<li>
+							<a href="/" title="">
+								<span><img src="/images/icon1.png" alt=""></span>
+								Home
+							</a>
+						</li>
+						<li>
+							<a href="/redSocial/listaUsuarios" title="">
+								<span><img src="/images/icon4.png" alt=""></span>
+								Usuarios
+							</a>
+							<ul>
+								<li><a href="/redSocial/userArea/${logUser.correo}/amigos" title="">Ver Amigos</a></li>
+							</ul>
+						</li>
+						<li>
+							<a title="" class="not-box-open">
+								<span><img src="/images/icon7.png" alt=""></span>
+								Notificaciones
+							</a>
+							<div class="notification-box">
+								<div class="nott-list">
+									<#list logUser.notificaciones as notificacion>
+									<div class="notfication-details">
+										<div class="notification-info">
+											<h3>${notificacion.actividad}</h3>
+											<br>
+											<span><h2>${notificacion.getFechaString()}</h2></span>
+										</div><!--notification-info -->
+									</div>
+								</#list>
+							</div><!--nott-list end-->
+			</div><!--notification-box end-->
+			</li>
+			<li>
+				<a href="/redSocial/userArea/${logUser.correo}/settings" title="">
+					<span><img src="/images/icon3.png" alt=""></span>
+					Configuración
+				</a>
+			</li>
+			<#if logUser.admin>
+			<li>
+				<a href="/redSocial/admin/${logUser.correo}/zonaAdmin" title="">
+					<span><img src="/images/icon5.png" alt=""></span>
+					Zona Admin
+				</a>
+			</li>
+		</#if>
+		</ul>
+		</nav><!--nav end-->
+		<div class="menu-btn">
+			<a href="#" title=""><i class="fa fa-bars"></i></a>
+		</div><!--menu-btn end-->
+		<div class="user-account">
+			<div class="user-info">
+				<#if logUser.fotoPerfil??>
+					<img src="/${logUser.fotoPerfil.imagen}" alt="">
+				<#else>
+					<img src="/images/resources/user-profile-default.png" alt="">
+				</#if>
+				<a href="/redSocial/userArea/${logUser.correo}/perfilUsuario" title=""> ${logUser.nombres}</a>
+				<i class="la la-sort-down"></i>
+			</div>
+			<div class="user-account-settingss">
+				<ul class="us-links">
+					<li><a href="/redSocial/userArea/${logUser.correo}/settings" title="">
+						Configuración de Cuenta</a></li>
+				</ul>
+				<h3 class="tc"><a href="/logout" title="">Logout</a></h3>
+			</div><!--user-account-settingss end-->
+		</div>
+</div><!--header-data end-->
+</div>
+</header><!--header end-->
+
+
+
+
+
+<section class="profile-account-setting">
+		<div class="container">
+			<div class="account-tabs-setting">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="acc-leftbar">
+							<div class="nav nav-tabs" id="nav-tab" role="tablist">
+								<a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab"
+								   href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>Gestionar Usuarios</a>
+							</div>
+						</div><!--acc-leftbar end-->
+					</div>
+					<div class="col-lg-9">
+						<div class="tab-content" id="nav-tabContent">
+
+							<div class="tab-pane fade show active" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
+								<div class="acc-setting">
+									<h3>Zona Admin</h3>
+									<div class="notbar">
+										<h4>Sobre el menú de admin</h4>
+										<p>Este menu representa las configuraciones que tendrá el administrador en
+											el sistema donde podrá manejar distintos parámetros que se ven en la
+											corrida del sistema.</p>
+										<p> ¡Este menú solo debe ser manipulado por un usuario autorizado!</p>
+									</div><!--notbar end-->
+								</div><!--acc-setting end-->
+							</div>
+
+
+
+							<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
+								<div class="acc-setting">
+									<h3>Profile Status</h3>
+									<div class="profile-bx-details">
+										<div class="row">
+											<div class="col-lg-3 col-md-6 col-sm-12">
+												<div class="profile-bx-info">
+													<div class="pro-bx">
+														<img src="/images/pro-icon1.png" alt="">
+														<div class="bx-info">
+															<h3>$5,145</h3>
+															<h5>Total Income</h5>
+														</div><!--bx-info end-->
+													</div><!--pro-bx end-->
+													<p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+												</div><!--profile-bx-info end-->
+											</div>
+											<div class="col-lg-3 col-md-6 col-sm-12">
+												<div class="profile-bx-info">
+													<div class="pro-bx">
+														<img src="/images/pro-icon2.png" alt="">
+														<div class="bx-info">
+															<h3>$4,745</h3>
+															<h5>Widthraw</h5>
+														</div><!--bx-info end-->
+													</div><!--pro-bx end-->
+													<p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+												</div><!--profile-bx-info end-->
+											</div>
+											<div class="col-lg-3 col-md-6 col-sm-12">
+												<div class="profile-bx-info">
+													<div class="pro-bx">
+														<img src="/images/pro-icon3.png" alt="">
+														<div class="bx-info">
+															<h3>$1,145</h3>
+															<h5>Sent</h5>
+														</div><!--bx-info end-->
+													</div><!--pro-bx end-->
+													<p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+												</div><!--profile-bx-info end-->
+											</div>
+											<div class="col-lg-3 col-md-6 col-sm-12">
+												<div class="profile-bx-info">
+													<div class="pro-bx">
+														<img src="/images/pro-icon4.png" alt="">
+														<div class="bx-info">
+															<h3>130</h3>
+															<h5>Total Projects</h5>
+														</div><!--bx-info end-->
+													</div><!--pro-bx end-->
+													<p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+												</div><!--profile-bx-info end-->
+											</div>
+										</div>
+									</div><!--profile-bx-details end-->
+									<div class="pro-work-status">
+										<!-- <h4>Work Status  -  Last Months Working Status</h4> -->
+									</div><!--pro-work-status end-->
+								</div><!--acc-setting end-->
+							</div>
+
+
+
+
+							<div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+								<div class="acc-setting">
+									<h3>Manejo de usuarios</h3>
+									<div class="tablaContainer">
+										<table>
+											<tr>
+												<th>ID</th><th>Nombre Completo</th><th>Correo</th><th>Contraseña</th><th>Permiso
+											</th>
+											</tr>
+											<tr>
+												<#list listaUsuarios as usuario>
+											<tr>
+												<td>${usuario.idUsuario}</td>
+												<td>${usuario.nombres} ${usuario.apellidos}</td>
+												<td>${usuario.correo}</td>
+												<td>${usuario.password}</td>
+
+												<#if usuario.admin>
+													<td>Administrador</td>
+												<#else>
+													<td><a href="/redSocial/admin/volverAdmin/${usuario.correo}" class="button">Volver Admin</a></td>
+												</#if>
+												<#if usuario.admin>
+													<td> - </td>
+												<#else>
+													<td><a href="/redSocial/admin/eliminarCorreo/${usuario.correo}" class="button">Eliminar</a></td>
+												</#if>
+											</tr>
+											</#list>
+											</tr>
+										</table>
+										<br>
+										<br>
+									</div>
+								</div><!--acc-setting end-->
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div><!--account-tabs-setting end-->
+		</div>
+	</section>
+
+
+
+	<footer>
+		<div class="footy-sec mn no-margin">
+			<div class="container">
+				<ul>
+					<li><a href="#" title="">Help Center</a></li>
+					<li><a href="#" title="">Privacy Policy</a></li>
+					<li><a href="#" title="">Community Guidelines</a></li>
+					<li><a href="#" title="">Cookies Policy</a></li>
+					<li><a href="#" title="">Career</a></li>
+					<li><a href="#" title="">Forum</a></li>
+					<li><a href="#" title="">Language</a></li>
+					<li><a href="#" title="">Copyright Policy</a></li>
+				</ul>
+				<p><img src="/images/copy-icon2.png" alt="">Copyright 2018</p>
+				<img class="fl-rgt" src="/images/logo2.png" alt="">
+			</div>
+		</div>
+	</footer>
+
+</div><!--theme-layout end-->
+
+
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/popper.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mCustomScrollbar.js"></script>
+<script type="text/javascript" src="/lib/slick/slick.min.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+
+
+</body>
+
+<!-- Mirrored from gamboldesigns.net/Demo/HTML/profile-account-setting.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Jul 2018 03:36:44 GMT -->
+</html>

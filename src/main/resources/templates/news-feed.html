@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from gamboldesigns.net/Demo/HTML/news-feed.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Jul 2018 03:34:14 GMT -->
+<head>
+<meta charset="UTF-8">
+<title>WorkWise Html Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<link rel="stylesheet" type="text/css" href="/css/animate.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/css/line-awesome.css">
+<link rel="stylesheet" type="text/css" href="/css/line-awesome-font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.min.css">
+<link rel="stylesheet" type="text/css" href="/lib/slick/slick.css">
+<link rel="stylesheet" type="text/css" href="/lib/slick/slick-theme.css">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+<style>
+	#postedImage{
+		display: block;
+		min-width: 500px;
+		min-height: 300px;
+		max-width:500px;
+		max-height:300px;
+		width: auto;
+		height: auto;
+		margin: auto;
+		margin-bottom: 15px;
+	}
+	#comments-btn{
+		background-color: Transparent;
+		background-repeat:no-repeat;
+		border: none;
+		cursor:pointer;
+		overflow: hidden;
+		outline:none;
+	}
+	#image-container{
+		width: 100%;
+		height: auto;
+		margin: auto;
+	}
+</style>
+</head>
+
+
+<body>
+	
+
+	<div class="wrapper">
+
+
+
+		<header>
+			<div class="container">
+				<div class="header-data">
+					<div class="logo">
+						<a href="/" title=""><img src="/images/logo.png" alt=""></a>
+					</div><!--logo end-->
+					<nav>
+						<ul>
+							<li>
+								<a href="/" title="">
+									<span><img src="/images/icon1.png" alt=""></span>
+									Home
+								</a>
+							</li>
+							<li>
+								<a href="/redSocial/listaUsuarios" title="">
+									<span><img src="/images/icon4.png" alt=""></span>
+									Usuarios
+								</a>
+								<ul>
+									<li><a href="/redSocial/userArea/${logUser.correo}/amigos" title="">Ver Amigos</a></li>
+								</ul>
+							</li>
+							<li>
+								<a title="" class="not-box-open">
+									<span><img src="/images/icon7.png" alt=""></span>
+									Notificaciones
+								</a>
+								<div class="notification-box">
+									<div class="nott-list">
+										<#list logUser.notificaciones as notificacion>
+										<div class="notfication-details">
+											<div class="notification-info">
+												<h3>${notificacion.actividad}</h3>
+												<br>
+												<span><h2>${notificacion.getFechaString()}</h2></span>
+											</div><!--notification-info -->
+										</div>
+									</#list>
+								</div><!--nott-list end-->
+				</div><!--notification-box end-->
+				</li>
+				<li>
+					<a href="/redSocial/userArea/${logUser.correo}/settings" title="">
+						<span><img src="/images/icon3.png" alt=""></span>
+						Configuración
+					</a>
+				</li>
+				<#if logUser.admin>
+				<li>
+					<a href="/redSocial/admin/${logUser.correo}/zonaAdmin" title="">
+						<span><img src="/images/icon5.png" alt=""></span>
+						Zona Admin
+					</a>
+				</li>
+			</#if>
+			</ul>
+			</nav><!--nav end-->
+			<div class="menu-btn">
+				<a href="#" title=""><i class="fa fa-bars"></i></a>
+			</div><!--menu-btn end-->
+			<div class="user-account">
+				<div class="user-info">
+					<#if logUser.fotoPerfil??>
+					<img src="/${logUser.fotoPerfil.imagen}" alt="">
+					<#else>
+					<img src="/images/resources/user-profile-default.png" alt="">
+				</#if>
+				<a href="/redSocial/userArea/${logUser.correo}/perfilUsuario" title=""> ${logUser.nombres}</a>
+				<i class="la la-sort-down"></i>
+			</div>
+			<div class="user-account-settingss">
+				<ul class="us-links">
+					<li><a href="/redSocial/userArea/${logUser.correo}/settings" title="">
+						Configuración de Cuenta</a></li>
+				</ul>
+				<h3 class="tc"><a href="/logout" title="">Logout</a></h3>
+			</div><!--user-account-settingss end-->
+	</div>
+	</div><!--header-data end-->
+	</div>
+	</header><!--header end-->
+
+
+
+
+
+
+
+
+
+
+
+	<main>
+			<div class="main-section">
+				<div class="container">
+					<div class="main-section-data">
+						<div class="row">
+							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
+								<div class="main-left-sidebar no-margin">
+									<div class="user-data full-width">
+										<div class="user-profile">
+											<div class="username-dt">
+												<div class="usr-pic">
+													<#if logUser.fotoPerfil??>
+														<img src="/${logUser.fotoPerfil.imagen}" alt="">
+													<#else>
+														<img src="/images/resources/user-profile-default.png" alt="">
+													</#if>
+												</div>
+											</div><!--username-dt end-->
+											<div class="user-specs">
+												<h3>${logUser.nombres} ${logUser.apellidos}</h3>
+												<span>${logUser.ciudad}, ${logUser.pais.getPais()}</span>
+											</div>
+										</div><!--user-profile end-->
+										<ul class="user-fw-status">
+											<li>
+												<h4>Amigos</h4>
+												<span>${cantAmigos}</span>
+											</li>
+											<li>
+												<a href="/redSocial/userArea/${logUser.correo}/perfilUsuario" title="">Ver Perfil</a>
+											</li>
+										</ul>
+									</div><!--user-data end-->
+
+								</div><!--main-left-sidebar end-->
+							</div>
+							<div class="col-lg-6 col-md-8 no-pd">
+								<div class="main-ws-sec">
+                                    <div class="product-feed-tab current" id="feed-dd">
+                                        <div class="posts-section">
+                                            <#list posts as post>
+                                                <div class="post-bar">
+                                                    <div class="post_topbar">
+                                                        <div class="usy-dt">
+                                                            <#if post.autor.fotoPerfil??>
+                                                                <img id="foto-perfil" src="/${post.autor.fotoPerfil.imagen}" alt="">
+                                                                <#else>
+                                                                    <img id="foto-perfil" src="/images/resources/user-profile-default.png" alt="">
+                                                            </#if>
+                                                            <div class="usy-name">
+                                                                <h3>${post.autor.nombres} ${post.autor.apellidos}</h3>
+                                                                <span><img src="/images/clock.png" alt="">${post.fecha}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="epi-sec">
+                                                        <ul class="descp">
+                                                            <li><img src="/images/icon9.png" alt=""><span>${post.autor.pais.pais}
+																<#if post.geolocation?has_content>
+																	<br>Posteado en ${post.geolocation}</span>
+                                                                </#if>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="job_descp">
+                                                        <p>${post.cuerpo}</p>
+                                                        <#if post.fotoPost??>
+                                                            <div id="image-container">
+                                                                <img id="postedImage" src="/${post.fotoPost.imagen}">
+                                                            </div>
+                                                        </#if>
+                                                        <ul class="skill-tags">
+                                                            <#list post.getListaTags() as tag>
+                                                                <li><a>${tag.tag}</a></li>
+                                                            </#list>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="job-status-bar">
+                                                        <ul class="like-com">
+                                                            <li>
+                                                                <a id="like-btn" href="/procesarLike/${post.idPost}"><i class="la la-heart"></i> Like</a>
+                                                                <span>${post.likesCount()}</span>
+                                                            </li>
+                                                            <li>
+                                                                <button id="comments-btn" onclick="mostrarSeccionComentarios(${post.idPost})"><a><img src="/images/com.png" alt=""> Comentarios</a></button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div id="comentarios${post.idPost}" style="display: none">
+                                                        <#list post.getComentariosOrdenados() as comentario>
+                                                            <div class="comment-section">
+                                                                <div class="comment-sec">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="comment-list">
+                                                                                <div class="bg-img">
+                                                                                    <#if comentario.autor.fotoPerfil??>
+                                                                                        <img src="/${comentario.autor.fotoPerfil.imagen}" alt="">
+                                                                                        <#else>
+                                                                                            <img src="/images/resources/user-profile-default.png" alt="">
+                                                                                    </#if>
+                                                                                </div>
+                                                                                <div class="comment">
+                                                                                    <h3>${comentario.autor.nombres} ${comentario.autor.apellidos}</h3>
+                                                                                    <span><img src="/images/clock.png" alt="">${comentario.fecha}</span>
+                                                                                    <p>${comentario.comentario}</p>
+                                                                                </div>
+                                                                            </div><!--comment-list end-->
+                                                                        </li>
+                                                                    </ul>
+                                                                </div><!--comment-sec end-->
+                                                            </div><!--comment-section end-->
+                                                        </#list>
+                                                        <div id="comentar-div" class="post-comment">
+                                                            <div class="cm_img">
+                                                                <#if logUser.fotoPerfil??>
+                                                                    <img src="/${logUser.fotoPerfil.imagen}" alt="">
+                                                                    <#else>
+                                                                        <img src="/images/resources/user-profile-default.png" alt="">
+                                                                </#if>
+                                                            </div>
+                                                            <div class="comment_box">
+                                                                <form action="/comentarPost/${post.idPost}" method="post">
+                                                                    <input name="comentarioNuevo" type="text" placeholder="Pon un comentario...">
+                                                                    <button type="submit">Enviar</button>
+                                                                </form>
+                                                            </div>
+                                                        </div><!--post-comment end-->
+                                                    </div>
+                                                </div><!--post-bar end-->
+                                            </#list>
+                                        </div><!--posts-section end-->
+                                    </div><!--product-feed-tab end-->
+
+
+								</div><!--main-ws-sec end-->
+							</div>
+							<div class="col-lg-3 pd-right-none no-pd">
+								<div class="right-sidebar">
+
+									<div class="suggestions full-width">
+										<div class="sd-title">
+											<h3>Sugerencias</h3>
+											<i class="la la-ellipsis-v"></i>
+										</div><!--sd-title end-->
+										<div class="suggestions-list">
+											<#list sugerencias as sugerencia>
+												<div class="suggestion-usd">
+													<div class="noty-user-img">
+														<#if sugerencia.fotoPerfil??>
+															<img src="/${sugerencia.fotoPerfil.imagen}" alt="">
+														<#else>
+															<img src="/images/resources/user-profile-default.png" alt="">
+														</#if>
+													</div>
+													<div class="sgt-text">
+														<h4>${sugerencia.nombres} ${sugerencia.apellidos}</h4>
+														<span>${sugerencia.ciudad}</span>
+													</div>
+													<span><a href="/redSocial/userArea/${logUser.correo}/enviarRequest?amigo=${sugerencia.correo}"><i class="la la-plus"></i></a></span>
+												</div>
+											</#list>
+										</div><!--suggestions-list end-->
+									</div><!--suggestions end-->
+
+
+									</div>
+								</div><!--right-sidebar end-->
+							</div>
+						</div>
+					</div><!-- main-section-data end-->
+				</div> 
+			</div>
+		</main>
+
+
+
+
+		<div class="post-popup pst-pj">
+			<div class="post-project">
+				<h3>Post a project</h3>
+				<div class="post-project-fields">
+					<form>
+						<div class="row">
+							<div class="col-lg-12">
+								<input type="text" name="title" placeholder="Title">
+							</div>
+							<div class="col-lg-12">
+								<div class="inp-field">
+									<select>
+										<option>Category</option>
+										<option>Category 1</option>
+										<option>Category 2</option>
+										<option>Category 3</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<input type="text" name="skills" placeholder="Skills">
+							</div>
+							<div class="col-lg-12">
+								<div class="price-sec">
+									<div class="price-br">
+										<input type="text" name="price1" placeholder="Price">
+										<i class="la la-dollar"></i>
+									</div>
+									<span>To</span>
+									<div class="price-br">
+										<input type="text" name="price1" placeholder="Price">
+										<i class="la la-dollar"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<textarea name="description" placeholder="Description"></textarea>
+							</div>
+							<div class="col-lg-12">
+								<ul>
+									<li><button class="active" type="submit" value="post">Post</button></li>
+									<li><a href="#" title="">Cancel</a></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div><!--post-project-fields end-->
+				<a href="#" title=""><i class="la la-times-circle-o"></i></a>
+			</div><!--post-project end-->
+		</div><!--post-project-popup end-->
+
+		<div class="post-popup job_post">
+			<div class="post-project">
+				<h3>Post a job</h3>
+				<div class="post-project-fields">
+					<form>
+						<div class="row">
+							<div class="col-lg-12">
+								<input type="text" name="title" placeholder="Title">
+							</div>
+							<div class="col-lg-12">
+								<div class="inp-field">
+									<select>
+										<option>Category</option>
+										<option>Category 1</option>
+										<option>Category 2</option>
+										<option>Category 3</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<input type="text" name="skills" placeholder="Skills">
+							</div>
+							<div class="col-lg-6">
+								<div class="price-br">
+									<input type="text" name="price1" placeholder="Price">
+									<i class="la la-dollar"></i>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="inp-field">
+									<select>
+										<option>Full Time</option>
+										<option>Half time</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<textarea name="description" placeholder="Description"></textarea>
+							</div>
+							<div class="col-lg-12">
+								<ul>
+									<li><button class="active" type="submit" value="post">Post</button></li>
+									<li><a href="#" title="">Cancel</a></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div><!--post-project-fields end-->
+				<a href="#" title=""><i class="la la-times-circle-o"></i></a>
+			</div><!--post-project end-->
+		</div><!--post-project-popup end-->
+	</div><!--theme-layout end-->
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/popper.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mCustomScrollbar.js"></script>
+<script type="text/javascript" src="/lib/slick/slick.min.js"></script>
+<script type="text/javascript" src="/js/scrollbar.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+<script>
+    function mostrarSeccionComentarios(idPost) {
+        var seccionComentarios = document.getElementById("comentarios"+idPost);
+        if (seccionComentarios.style.display === "none") {
+            seccionComentarios.style.display = "block";
+        } else {
+            seccionComentarios.style.display = "none";
+        }
+    }
+</script>
+<script>
+    var like = $("#like-btn");
+    like.click(function () {
+        if(like.hasClass("active")){
+            like.removeClass("active");
+        }else{
+            like.toggleClass("active");
+        }
+    })
+</script>
+
+</body>
+
+<!-- Mirrored from gamboldesigns.net/Demo/HTML/news-feed.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Jul 2018 03:35:03 GMT -->
+</html>

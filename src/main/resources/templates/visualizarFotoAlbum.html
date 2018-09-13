@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from gamboldesigns.net/Demo/HTML/visualizarFotoAlbum.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Jul 2018 03:36:28 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<title>WorkWise Html Template</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<link rel="stylesheet" type="text/css" href="/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/line-awesome.css">
+	<link rel="stylesheet" type="text/css" href="/css/line-awesome-font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" type="text/css" href="/lib/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="/lib/slick/slick-theme.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<style>
+		#comments-btn{
+			background-color: Transparent;
+			background-repeat:no-repeat;
+			border: none;
+			cursor:pointer;
+			overflow: hidden;
+			outline:none;
+		}
+	</style>
+</head>
+
+
+<body>
+<div class="wrapper">
+	<header>
+		<div class="container">
+			<div class="header-data">
+				<div class="logo">
+					<a href="/" title=""><img src="/images/logo.png" alt=""></a>
+				</div><!--logo end-->
+				<nav>
+					<ul>
+						<li>
+							<a href="/" title="">
+								<span><img src="/images/icon1.png" alt=""></span>
+								Home
+							</a>
+						</li>
+						<li>
+							<a href="/redSocial/listaUsuarios" title="">
+								<span><img src="/images/icon4.png" alt=""></span>
+								Usuarios
+							</a>
+							<ul>
+								<li><a href="/redSocial/userArea/${logUser.correo}/amigos" title="">Ver Amigos</a></li>
+							</ul>
+						</li>
+						<li>
+							<a title="" class="not-box-open">
+								<span><img src="/images/icon7.png" alt=""></span>
+								Notificaciones
+							</a>
+							<div class="notification-box">
+								<div class="nott-list">
+									<#list logUser.notificaciones as notificacion>
+									<div class="notfication-details">
+										<div class="notification-info">
+											<h3>${notificacion.actividad}</h3>
+											<br>
+											<span><h2>${notificacion.getFechaString()}</h2></span>
+										</div><!--notification-info -->
+									</div>
+								</#list>
+							</div><!--nott-list end-->
+			</div><!--notification-box end-->
+			</li>
+			<li>
+				<a href="/redSocial/userArea/${logUser.correo}/settings" title="">
+					<span><img src="/images/icon3.png" alt=""></span>
+					Configuración
+				</a>
+			</li>
+			<#if logUser.admin>
+			<li>
+				<a href="/redSocial/admin/${logUser.correo}/zonaAdmin" title="">
+					<span><img src="/images/icon5.png" alt=""></span>
+					Zona Admin
+				</a>
+			</li>
+		</#if>
+		</ul>
+		</nav><!--nav end-->
+		<div class="menu-btn">
+			<a href="#" title=""><i class="fa fa-bars"></i></a>
+		</div><!--menu-btn end-->
+		<div class="user-account">
+			<div class="user-info">
+				<#if logUser.fotoPerfil??>
+					<img src="/${logUser.fotoPerfil.imagen}" alt="">
+				<#else>
+					<img src="/images/resources/user.png" alt="">
+				</#if>
+				<a href="/redSocial/userArea/${logUser.correo}/perfilUsuario" title=""> ${logUser.nombres}</a>
+				<i class="la la-sort-down"></i>
+			</div>
+			<div class="user-account-settingss">
+				<ul class="us-links">
+					<li><a href="/redSocial/userArea/${logUser.correo}/settings" title="">
+						Configuración de Cuenta</a></li>
+				</ul>
+				<h3 class="tc"><a href="/logout" title="">Logout</a></h3>
+			</div><!--user-account-settingss end-->
+		</div>
+</div><!--header-data end-->
+</div>
+</header><!--header end-->
+
+
+
+		<div class="posty">
+			<div class="post-bar">
+				<div class="post_topbar">
+					<div class="foto-section">
+						<div class="foto">
+							<img id="fotoMarco" src="/${foto.imagen}">
+						</div>
+					</div><!--main-conversation-box end-->
+				</div>
+				<div class="usuarios-etiquetados-section">
+					<span><i class="fa fa-tag"></i> Etiquetas: </span>
+					<p>${foto.getAllTags()}</p>
+				</div>
+				<div class="job-status-bar">
+					<ul class="like-com">
+						<li>
+							<a id="like-btn" href="/procesarLikeFoto/${foto.album.idAlbum}/${foto.idImagen}"><i class="la la-heart"></i> Like</a>
+							<span>${foto.likesCount()}</span>
+						</li>
+						<li>
+							<button id="comments-btn" onclick="mostrarSeccionComentarios()"><a><img src="/images/com.png" alt=""> Comentarios</a></button>
+						</li>
+					</ul>
+				</div>
+				<div id="comentarios" style="display: none">
+					<#list foto.getComentariosOrdenados() as comentario>
+						<div class="comment-section">
+							<div class="comment-sec">
+								<ul>
+									<li>
+										<div class="comment-list">
+											<div class="bg-img">
+												<#if comentario.autor.fotoPerfil??>
+													<img src="/${comentario.autor.fotoPerfil.imagen}" alt="">
+												<#else>
+													<img src="/images/resources/user-profile-default.png" alt="">
+												</#if>
+											</div>
+											<div class="comment">
+												<h3>${comentario.autor.nombres} ${comentario.autor.apellidos}</h3>
+												<span><img src="/images/clock.png" alt="">${comentario.fecha}</span>
+												<p>${comentario.comentario}</p>
+											</div>
+										</div><!--comment-list end-->
+									</li>
+								</ul>
+							</div><!--comment-sec end-->
+						</div><!--comment-section end-->
+					</#list>
+					<div id="comentar-div" class="post-comment">
+						<div class="cm_img">
+							<#if logUser.fotoPerfil??>
+								<img src="/${logUser.fotoPerfil.imagen}" alt="">
+							<#else>
+								<img src="/images/resources/user-profile-default.png" alt="">
+							</#if>
+						</div>
+						<div class="comment_box">
+							<form action="/comentarFoto/${foto.album.idAlbum}/${foto.idImagen}" method="post">
+								<input name="comentarioNuevo" type="text" placeholder="Pon un comentario...">
+								<button type="submit">Enviar</button>
+							</form>
+						</div>
+					</div><!--post-comment end-->
+				</div>
+			</div><!--post-bar end-->
+		</div>
+
+
+
+
+
+		<footer>
+			<div class="footy-sec mn no-margin">
+				<div class="container">
+					<ul>
+						<li><a href="#" title="">Help Center</a></li>
+						<li><a href="#" title="">Privacy Policy</a></li>
+						<li><a href="#" title="">Community Guidelines</a></li>
+						<li><a href="#" title="">Cookies Policy</a></li>
+						<li><a href="#" title="">Career</a></li>
+						<li><a href="#" title="">Forum</a></li>
+						<li><a href="#" title="">Language</a></li>
+						<li><a href="#" title="">Copyright Policy</a></li>
+					</ul>
+					<p><img src="/images/copy-icon2.png" alt="">Copyright 2018</p>
+					<img class="fl-rgt" src="/images/logo2.png" alt="">
+				</div>
+			</div>
+		</footer>
+
+	</div><!--theme-layout end-->
+
+
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/popper.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.mCustomScrollbar.js"></script>
+	<script type="text/javascript" src="/lib/slick/slick.min.js"></script>
+	<script type="text/javascript" src="/js/scrollbar.js"></script>
+	<script type="text/javascript" src="/js/script.js"></script>
+	<script>
+        function mostrarSeccionComentarios() {
+            var seccionComentarios = document.getElementById("comentarios");
+            if (seccionComentarios.style.display === "none") {
+                seccionComentarios.style.display = "block";
+            } else {
+                seccionComentarios.style.display = "none";
+            }
+        }
+	</script>
+	<script>
+        var like = $("#like-btn");
+        like.click(function () {
+            if(like.hasClass("active")){
+                like.removeClass("active");
+            }else{
+                like.toggleClass("active");
+            }
+        })
+	</script>
+</body>
+
+<!-- Mirrored from gamboldesigns.net/Demo/HTML/visualizarFotoAlbum.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Jul 2018 03:36:36 GMT -->
+</html>
