@@ -1,6 +1,7 @@
 package entidades;
 
 import logical.NivelEducativo;
+import logical.Sector;
 import servicios.MetodosDB;
 
 import javax.persistence.EntityManager;
@@ -35,5 +36,16 @@ public class ServiciosNivelEducativo extends MetodosDB<NivelEducativo> {
         Query query = em.createQuery("select n from NivelEducativo n order by n.nivel");
         List<NivelEducativo> resultado = query.getResultList();
         return resultado;
+    }
+
+    public NivelEducativo findByNivel(String nivel){
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select n from NivelEducativo n where n.nivel = :nivel");
+            query.setParameter("nivel", nivel);
+            return (NivelEducativo) query.getSingleResult();
+        }catch (Exception ex){
+            return null;
+        }
     }
 }

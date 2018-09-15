@@ -36,4 +36,15 @@ public class ServiciosSectores extends MetodosDB<Sector> {
         List<Sector> resultado = query.getResultList();
         return resultado;
     }
+
+    public Sector findBySector(String sector){
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select s from Sector s where s.sector = :sector");
+            query.setParameter("sector", sector);
+            return (Sector) query.getSingleResult();
+        }catch (Exception ex){
+            return null;
+        }
+    }
 }

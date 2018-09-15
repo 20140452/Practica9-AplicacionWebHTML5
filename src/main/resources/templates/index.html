@@ -41,7 +41,7 @@
 
 				<div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!" required>
 					<span class="label-input100">Nombre completo</span>
-					<input class="input100" type="text" name="name" placeholder="Entra el nombre de la persona">
+					<input class="input100" type="text" name="nombre" placeholder="Entra el nombre de la persona">
 				</div>
 
 				<!--div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate = "Enter Your Email (e@a.x)">
@@ -57,7 +57,7 @@
 				<div class="wrap-input100 input100-select bg1" data-validate="Se debe entrar el sector de la persona!">
 					<span class="label-input100">Sector</span>
 					<div>
-						<select class="js-select2" name="service">
+						<select class="js-select2" name="sector">
 							<option>Elige el sector</option>
 							<#list sectores as sector>
 								<option>${sector.sector}</option>
@@ -70,7 +70,7 @@
 				<div class="wrap-input100 input100-select bg1" data-validate="Se debe entrar el nivel escolar de la persona!">
 					<span class="label-input100">Nivel escolar</span>
 					<div>
-						<select class="js-select2" name="service">
+						<select class="js-select2" name="nivel">
 							<option>Elige el nivel educativo</option>
 							<#list nivelesEducativos as nivel>
 								<option>${nivel.nivel}</option>
@@ -121,10 +121,10 @@
 					</div>
 				</div-->
 
-				<!--div-- class="wrap-input100 validate-input bg0 rs1-alert-validate" data-validate = "Please Type Your Message">
+				<div class="wrap-input100 validate-input bg0 rs1-alert-validate">
 					<span class="label-input100">Localización</span>
-					<textarea class="input100" name="message" placeholder="No se pudo obtener su localización..." readonly="readonly"></textarea>
-				</div-->
+					<textarea id="geolocalizacion" class="input100" name="geolocalizacion" readonly="readonly">No se pudo obtener su localización...</textarea>
+				</div>
 
 				<div class="container-contact100-form-btn">
 					<button class="contact100-form-btn">
@@ -175,6 +175,8 @@
 	<script src="vendor/daterangepicker/daterangepicker.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+    <script src="js/geolocation.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/noui/nouislider.min.js"></script>
 	<script>

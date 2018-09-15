@@ -1,8 +1,6 @@
 package logical;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -16,23 +14,27 @@ public class Encuesta implements Serializable {
     private String nombre;
 
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "idSector")
     private Sector sector;
 
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "idNivel")
     private NivelEducativo nivelEducacion;
 
-    private int altitud;
+    private float latitud;
 
-    private int longitud;
+    private float longitud;
 
     public Encuesta() {
     }
 
-    public Encuesta(String nombre, Sector sector, NivelEducativo nivelEducacion, int altitud, int longitud) {
+    public Encuesta(String nombre, Sector sector, NivelEducativo nivelEducacion, float latitud, float longitud) {
         this.nombre = nombre;
         this.sector = sector;
         this.nivelEducacion = nivelEducacion;
-        this.altitud = altitud;
+        this.latitud = latitud;
         this.longitud = longitud;
     }
 
@@ -68,19 +70,19 @@ public class Encuesta implements Serializable {
         this.nivelEducacion = nivelEducacion;
     }
 
-    public int getAltitud() {
-        return altitud;
+    public float getLatitud() {
+        return latitud;
     }
 
-    public void setAltitud(int altitud) {
-        this.altitud = altitud;
+    public void setLatitud(float latitud) {
+        this.latitud = latitud;
     }
 
-    public int getLongitud() {
+    public float getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(int longitud) {
+    public void setLongitud(float longitud) {
         this.longitud = longitud;
     }
 }

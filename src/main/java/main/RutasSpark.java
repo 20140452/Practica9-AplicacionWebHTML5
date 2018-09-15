@@ -1,5 +1,6 @@
 package main;
 
+import entidades.ServiciosEncuestas;
 import entidades.ServiciosNivelEducativo;
 import entidades.ServiciosSectores;
 import freemarker.template.Configuration;
@@ -39,22 +40,40 @@ public class RutasSpark {
         }, freeMarkerEngine);
 
         post("/registrarEncuesta", (request, response) -> {
-            try{
-                Encuesta postAEditar = ServiciosPost.getInstancia().find(Long.parseLong(idPostActual));
+            //try {
+                String nombre = request.queryParams("nombre");
+                String sector = request.queryParams("sector");
+                String nivel = request.queryParams("nivel");
+                String geolocation = request.queryParams("geolocalizacion").replace("Ubicación Actual: (",
+                        "").replace(")","");
 
-                String cuerpo = request.queryParams("cuerpo");
+                float latitud = 0;
+                float longitud = 0;
 
-                postAEditar.setCuerpo(cuerpo);
-                ServiciosPost.getInstancia().editar(postAEditar);
+                if(!geolocation.equals("No se pudo obtener su localización...")) {
+                    latitud = Float.parseFloat(geolocation.split(",")[0].trim());
+                    longitud = Float.parseFloat(geolocation.split(",")[0].trim());
+                }
 
-                Usuario logUser = request.session(true).attribute("usuario");
-                response.redirect("/redSocial/userArea/"+logUser.getCorreo()+"/perfilUsuario");
+                //Encuesta nuevaEncuesta = new Encuesta(nombre,new Sector(sector), new NivelEducativo(nivel),latitud,longitud);
+                Encuesta nuevaEncuesta = new Encuesta(nombre,ServiciosSectores.getInstancia().findBySector(sector),
+                        ServiciosNivelEducativo.getInstancia().findByNivel(nivel),latitud,longitud);
+                ServiciosEncuestas.getInstancia().crear(nuevaEncuesta);
 
-            }catch (Exception e){
-                System.out.println("Error al editar el post: " + e.toString());
-            }
+                System.out.println("    - Nombre: " + nombre + "\n"
+                        + " - Sector: " + sector + "\n"
+                        + " - Nivel: " + nivel + "\n"
+                        + " - Latitud: " + latitud
+                        + " - Longitud: " + longitud);
+
+                response.redirect("/formulario");
+            /*} catch (Exception e) {
+                System.out.println("Error registrar la encuesta!" + e.toString());
+                response.redirect("/formulario");
+            }*/
             return "";
         });
+
 
     }
 
