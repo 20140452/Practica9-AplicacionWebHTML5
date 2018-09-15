@@ -1,22 +1,11 @@
 package main;
 
-import entidades.ServiciosUsuario;
-import logical.Usuario;
-import servicios.Encriptamiento;
-
 import static spark.Spark.before;
 
 public class Filtros {
     public void aplicarFiltros(){
-        before("redSocial/userArea/:correo/*", (request, response) -> {
-            // ... check if authenticated
-            Usuario logUser = request.session(true).attribute("usuario");
-            if (logUser == null || !logUser.getCorreo().equals(request.params("correo"))) {
-                response.redirect("/");
-            }
-        });
 
-        before((request, response) -> {
+        /*before((request, response) -> {
             // ... check if authenticated
             Usuario logUser = request.session(true).attribute("usuario");
             String username = request.cookie("sr5h464h846s4dhds4h6w9uyh");
@@ -32,15 +21,7 @@ public class Filtros {
             Usuario logUser = request.session(true).attribute("usuario");
             if (logUser == null && request.cookie("sr5h464h846s4dhds4h6w9uyh") == null)
                 response.redirect("/");
-        });
-
-        before("redSocial/admin/*", (request, response) -> {
-            // ... check if authenticated
-            Usuario logUser = request.session(true).attribute("usuario");
-            if (logUser == null || !logUser.isAdmin()) {
-                response.redirect("/");
-            }
-        });
+        });*/
 
 
     }
