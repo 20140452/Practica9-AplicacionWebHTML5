@@ -24,11 +24,7 @@ public class RutasSpark {
 
 
         get("/", (request, response) -> {
-            /*Usuario logUser = request.session(true).attribute("usuario");
-            if(logUser==null)
-                response.redirect("/login");
-            else
-                response.redirect("practica9/home");*/
+            response.redirect("/formulario");
             return "";
         });
 
@@ -36,11 +32,11 @@ public class RutasSpark {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("sectores",listaSectores);
             attributes.put("nivelesEducativos",listaNiveles);
-            return new ModelAndView(attributes, "index.html");
+            return new ModelAndView(attributes, "formulario.html");
         }, freeMarkerEngine);
 
         post("/registrarEncuesta", (request, response) -> {
-            //try {
+            try {
                 String nombre = request.queryParams("nombre");
                 String sector = request.queryParams("sector");
                 String nivel = request.queryParams("nivel");
@@ -67,12 +63,18 @@ public class RutasSpark {
                         + " - Longitud: " + longitud);
 
                 response.redirect("/formulario");
-            /*} catch (Exception e) {
-                System.out.println("Error registrar la encuesta!" + e.toString());
+            } catch (Exception e) {
+                System.out.println("Error al registrar la encuesta!" + e.toString());
                 response.redirect("/formulario");
-            }*/
+            }
             return "";
         });
+
+        get("/listaEncuestasDB", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("encuestas",ServiciosEncuestas.getInstancia().findAll());
+            return new ModelAndView(attributes, "tabla.html");
+        }, freeMarkerEngine);
 
 
     }
