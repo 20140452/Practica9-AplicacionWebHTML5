@@ -76,6 +76,23 @@ public class RutasSpark {
             return new ModelAndView(attributes, "tabla.html");
         }, freeMarkerEngine);
 
+        get("/listaEncuestasDB", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("encuestas",ServiciosEncuestas.getInstancia().findAll());
+            return new ModelAndView(attributes, "tabla.html");
+        }, freeMarkerEngine);
+
+        get("mapa/:lat/:lon", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Double latitud = Double.valueOf(request.params("lat"));
+            Double longitud = Double.valueOf(request.params("lon"));
+            //String weatherJSON = WeatherAPI.getInstancia().getWeatherData(19.22,-70.53);
+            System.out.println("Latitud:" +latitud + " Longitud: " + longitud );
+            attributes.put("lat", latitud);
+            attributes.put("lon", longitud);
+            return new ModelAndView(attributes,"mapa.html");
+        }, freeMarkerEngine);
+
 
     }
 
