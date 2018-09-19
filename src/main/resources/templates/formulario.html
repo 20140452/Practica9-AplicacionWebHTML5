@@ -22,17 +22,18 @@
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/noui/nouislider.min.css">
+
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" href="css/offline-theme-chrome.css">
-	<link rel="stylesheet" href="css/offline-theme-chrome-indicator.css">
-	<link rel="stylesheet" href="css/offline-language-spanish.css">
-	<link rel="stylesheet" href="css/offline-language-spanish-indicator.css">
-<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/offline-theme-default.css">
+	<link rel="stylesheet" type="text/css" href="css/offline-language-english.css">
+	<link rel="stylesheet" type="text/css" href="css/offline-language-english-indicator.css">\
+	<link rel="stylesheet" type="text/css" href="css/offline-theme-default-indicator.css">
+
+
+	<!--===============================================================================================-->
 </head>
 <body>
 
@@ -46,7 +47,7 @@
 
 				<div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!" required>
 					<span class="label-input100">Nombre completo</span>
-					<input class="input100" type="text" name="nombre" placeholder="Entra el nombre de la persona">
+					<input  class="input100" type="text" name="nombre" placeholder="Entra el nombre de la persona">
 				</div>
 
 				<!--div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate = "Enter Your Email (e@a.x)">
@@ -132,9 +133,9 @@
 				</div>
 
 				<div class="container-contact100-form-btn">
-					<button class="contact100-form-btn">
+					<button type="button" class="contact100-form-btn" onclick="crearEncuesta();">
 						<span>
-							Submit
+							Enviar
 							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
 						</span>
 					</button>
@@ -183,35 +184,14 @@
 <!--===============================================================================================-->
     <script src="js/geolocation.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/noui/nouislider.min.js"></script>
-	<script>
-	    var filterBar = document.getElementById('filter-bar');
-
-	    noUiSlider.create(filterBar, {
-	        start: [ 1500, 3900 ],
-	        connect: true,
-	        range: {
-	            'min': 1500,
-	            'max': 7500
-	        }
-	    });
-
-	    var skipValues = [
-	    document.getElementById('value-lower'),
-	    document.getElementById('value-upper')
-	    ];
-
-	    filterBar.noUiSlider.on('update', function( values, handle ) {
-	        skipValues[handle].innerHTML = Math.round(values[handle]);
-	        $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
-	        $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
-	    });
-	</script>
-<!--===============================================================================================-->
 	<script src="js/main.js"></script>
+
+
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<!-- Include Dexie -->
+<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -219,9 +199,41 @@
 
   gtag('config', 'UA-23581568-13');
 </script>
+<script>
 
-<!-- Offline Script -->
-<script src="js/offline.min.js"></script>
+	var db = new Dexie("EncuestasDB");
+	db.version(1).stores({
+		encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+	});
 
+
+    function crearEncuesta(){
+        var lat;
+        var lon;
+        var nombre = document.getElementsByName("nombre")[0].value;
+        var sector = document.getElementsByName("sector")[0].value;
+        var nivel = document.getElementsByName("nivel")[0].value;
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+            console.log('Geolocation permissions granted');
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+
+
+            console.log("Nombre: " + nombre +" Sector: " + sector + " Nivel: "+ nivel + " Latitud: " + lat + " Longitud" + lon);
+
+            db.encuestas.add({nombre: nombre, sector: sector, nivel: nivel, longitud: lon, latitud: lat});
+        });
+    }
+
+    function actualizarEncuesta(encuesta){
+        db.encuestas.put({nombre: encuesta.nombre, sector: encuesta.sector, nivel: encuesta.nivel, longitud: encuesta.longitud, latitud: encuesta.latitud});
+    }
+
+    function eliminarEncuesta(idEncuesta){
+        db.encuestas.delete(idEncuesta);
+    }
+
+</script>
 </body>
 </html>
