@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<!-- Include Dexie -->
+	<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+	<script>
+        //
+        // Define your database
+        //
+        var db = new Dexie("encuestas_DB");
+        db.version(1).stores({
+            encuestas: 'idEncuesta,nombre,sector,nivel,longitud,latitud'
+        });
+
+        //
+        // Put some data into it
+        //
+        db.encuestas.put({idEncuesta: 1,nombre: "Adonis Veloz",
+			sector: "Santiago de los Caballeros",nivel: "Grado Universitario", longitud: 0, latitud: 0}).then (function(){
+            //
+            // Then when data is stored, read from it
+            //
+            return db.encuestas.get(1);
+        }).then(function (encuesta) {
+            //
+            // Display the result
+            //
+            document.getElementById("prueba").textContent = "Nombre de la persona: " + encuesta.nombre;
+			alert ("Nombre de la persona: " + encuesta.nombre);
+
+        }).catch(function(error) {
+            //
+            // Finally don't forget to catch any error
+            // that could have happened anywhere in the
+            // code blocks above.
+            //
+            alert ("Error al leer de la base de datos: " + error);
+        });
+	</script>
+</head>
+<body>
+	<h1 id="prueba">Probando...</h1>
+</body>
+</html>
