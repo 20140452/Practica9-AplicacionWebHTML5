@@ -24,7 +24,7 @@ public class RutasSpark {
 
 
         get("/", (request, response) -> {
-            response.redirect("/formulario");
+            response.redirect("/offlineApp");
             return "";
         });
 
@@ -73,7 +73,7 @@ public class RutasSpark {
         get("/listaEncuestasDB", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("encuestas",ServiciosEncuestas.getInstancia().findAll());
-            return new ModelAndView(attributes, "tabla.html");
+            return new ModelAndView(attributes, "tablaOnline.html");
         }, freeMarkerEngine);
 
         get("/listaEncuestasDB", (request, response) -> {
@@ -91,6 +91,13 @@ public class RutasSpark {
             attributes.put("lat", latitud);
             attributes.put("lon", longitud);
             return new ModelAndView(attributes,"mapa.html");
+        }, freeMarkerEngine);
+
+        get("/offlineApp", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("sectores",listaSectores);
+            attributes.put("nivelesEducativos",listaNiveles);
+            return new ModelAndView(attributes, "offline.html");
         }, freeMarkerEngine);
 
 
