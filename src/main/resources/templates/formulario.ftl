@@ -32,8 +32,6 @@
 <!--===============================================================================================-->
 </head>
 <body>
-
-
 	<div class="container-contact100">
 		<div class="wrap-contact100">
 			<form class="contact100-form validate-form" action="/registrarEncuesta" method="post">
