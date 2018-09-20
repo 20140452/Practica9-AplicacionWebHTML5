@@ -1,25 +1,46 @@
 <html>
+<head>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css">
+</head>
 <body>
 <h1>Ubicación:</h1>
-<div id="mapdiv"></div>
-<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<section>
+    <div class="container" align="center">
+        <div id="map" class="map"></div>
+    </div>
+
+</section>
+<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
 <script>
-    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-    map = new OpenLayers.Map("mapdiv");
-    map.addLayer(new OpenLayers.Layer.OSM());
+    let map = new ol.Map({
+        target: 'map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([(${lon}),(${lat})]),
+            zoom: 15
+        }),
 
-    //var lonLat = new OpenLayers.LonLat( 77.1279688 ,51.5043436 ).transform( fromProjection, toProjection);
-    var lonLat = new OpenLayers.LonLat(${lat},${lon}).transform( fromProjection, toProjection);
+    });
 
-    var zoom=16;
+    let marker = new ol.Feature({
+        geometry: new ol.geom.Point(
+            ol.proj.fromLonLat([(${lon}),(${lat})])
+        )
+    });
 
-    var markers = new OpenLayers.Layer.Markers( "Markers" );
-    map.addLayer(markers);
+    let vectorSource = new ol.source.Vector({
+        features: [marker]
+    });
 
-    markers.addMarker(new OpenLayers.Marker(lonLat));
-
-    map.setCenter (lonLat, zoom);
+    let markerVectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+    });
+    map.addLayer(markerVectorLayer);
 </script>
+
 </body>
 </html>

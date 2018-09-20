@@ -23,14 +23,14 @@ public class Encuesta implements Serializable {
     @JoinColumn(name = "idNivel")
     private NivelEducativo nivelEducacion;
 
-    private float latitud;
+    private double latitud;
 
-    private float longitud;
+    private double longitud;
 
     public Encuesta() {
     }
 
-    public Encuesta(String nombre, Sector sector, NivelEducativo nivelEducacion, float latitud, float longitud) {
+    public Encuesta(String nombre, Sector sector, NivelEducativo nivelEducacion, double latitud, double longitud) {
         this.nombre = nombre;
         this.sector = sector;
         this.nivelEducacion = nivelEducacion;
@@ -70,19 +70,33 @@ public class Encuesta implements Serializable {
         this.nivelEducacion = nivelEducacion;
     }
 
-    public float getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(float latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    public float getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(float longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
+    }
+
+    public String latitudString(){
+        return Double.toString(latitud);
+    }
+    public String longitudString(){
+        return Double.toString(longitud);
+    }
+
+    public String latitudCorta(){
+        return Double.toString(latitud).substring(0,6);
+    }
+    public String longitudCorta(){
+        return Double.toString(longitud).substring(0,6);
     }
 }
