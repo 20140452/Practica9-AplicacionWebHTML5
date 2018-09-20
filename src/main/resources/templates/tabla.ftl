@@ -187,7 +187,7 @@
                 $("#nivel-modificar").val(encuesta.nivel);
                 $("#guardar-modificacion").click(actualizarEncuesta(id));
 
-				console.log("Nombre: " +  encuesta.nombre.toString() + " Sector: " + encuesta.sector.toString() + " Nivel: " + encuesta.nivel.toString());
+				console.log("Id: " + id  + "Nombre: " +  encuesta.nombre.toString() + " Sector: " + encuesta.sector.toString() + " Nivel: " + encuesta.nivel.toString());
 			});
         }
 
