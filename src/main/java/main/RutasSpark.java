@@ -48,7 +48,7 @@ public class RutasSpark {
 
                 if(!geolocation.equals("No se pudo obtener su localización...")) {
                     latitud = Double.parseDouble(geolocation.split(",")[0].trim());
-                    longitud = Double.parseDouble(geolocation.split(",")[0].trim());
+                    longitud = Double.parseDouble(geolocation.split(",")[1].trim());
                 }
 
                 //Encuesta nuevaEncuesta = new Encuesta(nombre,new Sector(sector), new NivelEducativo(nivel),latitud,longitud);

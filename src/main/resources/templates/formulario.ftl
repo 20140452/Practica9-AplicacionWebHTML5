@@ -130,7 +130,7 @@
 					<button type="button" class="contact100-form-btn" onclick="crearEncuesta();">
 						<span>
 							Enviar
-							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+							<i class="fas fa-angle-right"></i>
 						</span>
 					</button>
 				</div>

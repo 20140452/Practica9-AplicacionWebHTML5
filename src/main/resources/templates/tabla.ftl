@@ -18,13 +18,21 @@
 	<link rel="stylesheet" type="text/css" href="Table_Responsive_v1/css/util.css">
 	<link rel="stylesheet" type="text/css" href="Table_Responsive_v1/css/main.css">
 <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<!--===============================================================================================-->
+<style>
+    .refresh{
+        padding-bottom: 20px;
+    }
+</style>
 </head>
 <body>
-	
 	<div class="limiter">
-        <button onclick="llenarTabla();" class="btn btn-success" > Actualizar Tabla </button>
 		<div class="container-table100">
-			<div class="wrap-table100">
+            <div class="refresh">
+                <button onclick="llenarTabla();" class="btn btn-success" id="btn_refresh"> <i class="fas fa-sync-alt"></i> Actualizar Tabla </button>
+            </div>
+            <div class="wrap-table100">
 				<div class="table100">
 					<table id="tablaEncuestas">
 						<thead>
@@ -82,6 +90,7 @@
             lon.innerHTML = encuesta.longitud;
             modificarBtn.innerHTML = '<button class="btn btn-success" > Modificar </button>';
 			eliminarBtn.innerHTML = '<button class="btn btn-success" > Eliminar </button>';
+			eliminarBtn.onclick = function() {eliminarEncuesta(encuesta.idEncuesta)}
         }
         function llenarTabla() {
             var db = new Dexie("EncuestasDB");
@@ -114,5 +123,6 @@
             llenarTabla();
         }
 	</script>
+    <script>document.getElementById("btn_refresh").click();</script>
 </body>
 </html>
