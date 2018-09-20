@@ -16,7 +16,9 @@ function init(){
 
 function gotPos(position){
     //geolocalizacion.textContent = "(" + position.coords.latitude + ", "  + position.coords.longitude + ")";
-    document.getElementById("geolocalizacion").value = "Ubicación Actual: (" + position.coords.latitude + ", "  + position.coords.longitude + ")";
+    document.getElementById("LblLat").textContent = position.coords.latitude
+    document.getElementById("LblLon").textContent = position.coords.longitude
+    document.getElementById("geolocalizacion").value = "Ubicación Actual: (" + position.coords.latitude + ", "  + position.coords.longitude + ")"
 }
 
 function posFail(err){

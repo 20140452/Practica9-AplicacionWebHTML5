@@ -30,6 +30,11 @@
 	<link rel="stylesheet" type="text/css" href="css/offline-language-english.css">
 	<link rel="stylesheet" type="text/css" href="css/offline-language-english-indicator.css">
 <!--===============================================================================================-->
+	<style>
+		.hiddenValue{
+            display: none;
+		}
+	</style>
 </head>
 <body>
 	<div class="container-contact100">
@@ -124,6 +129,10 @@
 				<div class="wrap-input100 validate-input bg0 rs1-alert-validate">
 					<span class="label-input100">Localización</span>
 					<textarea id="geolocalizacion" class="input100" name="geolocalizacion" readonly="readonly">No se pudo obtener su localización...</textarea>
+                    <div class="hiddenValue">
+                        <p id="LblLat" name="LblLat1">0</p>
+                        <p id="LblLon" name="LblLon1">0</p>
+                    </div>
 				</div>
 
 				<div class="container-contact100-form-btn">
@@ -194,29 +203,22 @@
   gtag('config', 'UA-23581568-13');
 </script>
 <script>
-	var db = new Dexie("EncuestasDB");
+	let db = new Dexie("EncuestasDB");
 	db.version(1).stores({
 		encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
 	});
 
 
     function crearEncuesta(){
-        var lat;
-        var lon;
+        var lat=document.getElementById("LblLat").textContent;;
+        var lon=document.getElementById("LblLon").textContent;;
         var nombre = document.getElementsByName("nombre")[0].value;
         var sector = document.getElementsByName("sector")[0].value;
         var nivel = document.getElementsByName("nivel")[0].value;
 
-        navigator.geolocation.getCurrentPosition(function(position) {
-            console.log('Geolocation permissions granted');
-            lat = position.coords.latitude;
-            lon = position.coords.longitude;
-
-
-            console.log("Nombre: " + nombre +" Sector: " + sector + " Nivel: "+ nivel + " Latitud: " + lat + " Longitud" + lon);
-
-            db.encuestas.add({nombre: nombre, sector: sector, nivel: nivel, longitud: lon, latitud: lat});
-        });
+        console.log("Nombre: " + nombre +" Sector: " + sector + " Nivel: "+ nivel + " Latitud: " + lat + " Longitud" + lon);
+        db.encuestas.add({nombre: nombre, sector: sector, nivel: nivel, longitud: lon, latitud: lat});
+        alert("    - Se ha guardado la encuesta en el registro local.");
     }
 </script>
 </body>
