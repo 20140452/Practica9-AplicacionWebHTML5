@@ -54,6 +54,57 @@
 			</div>
 		</div>
 	</div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modificar-encuesta" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:35px 50px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-lock"></span> Modificar Encuesta </h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    <form role="form">
+                        <div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!" required>
+                            <span class="label-input100">Nombre completo</span>
+                            <input id="nombre-modificar" class="input100" type="text" name="nombre" placeholder="Entra el nombre de la persona">
+                        </div>
+                        <div class="wrap-input100 input100-select bg1" data-validate="Se debe entrar el sector de la persona!">
+                            <span class="label-input100">Sector</span>
+                            <div>
+                                <select id="sector-modificar" class="js-select2" name="sector">
+                                    <option>Elige el sector</option>
+								<#list sectores as sector>
+                                    <option>${sector.sector}</option>
+								</#list>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+                        <div class="wrap-input100 input100-select bg1" data-validate="Se debe entrar el nivel escolar de la persona!">
+                            <span class="label-input100">Nivel escolar</span>
+                            <div>
+                                <select id="nivel-modificar" class="js-select2" name="nivel">
+                                    <option>Elige el nivel educativo</option>
+								<#list nivelesEducativos as nivel>
+                                    <option>${nivel.nivel}</option>
+								</#list>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                        </div>
+                        <button id="guardar-modificacion" type="button" class="contact100-form-btn">
+							<span>
+							Guardar
+							<i class="fas fa-angle-right"></i>
+							</span>
+						</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Include Dexie -->
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 
@@ -88,9 +139,10 @@
             nivelEscolar.innerHTML = encuesta.nivel;
             lat.innerHTML = encuesta.latitud;
             lon.innerHTML = encuesta.longitud;
-            modificarBtn.innerHTML = '<button class="btn btn-success" > Modificar </button>';
+            modificarBtn.innerHTML = '<button class="btn btn-success"  data-toggle="modal" data-target="#modificar-encuesta"> Modificar </button>';
 			eliminarBtn.innerHTML = '<button class="btn btn-success" > Eliminar </button>';
-			eliminarBtn.onclick = function() {eliminarEncuesta(encuesta.idEncuesta)}
+			eliminarBtn.onclick = function() {eliminarEncuesta(encuesta.idEncuesta)};
+			modificarBtn.onclick = function () { modificarEncuesta(encuesta.idEncuesta) };
         }
         function llenarTabla() {
             var db = new Dexie("EncuestasDB");
@@ -102,7 +154,7 @@
 					.toArray()
                     .then(function (encuestas) {
                         var table = document.getElementsByTagName("tbody")[0];
-                        if(encuestas.length > 0 && table.rows.length != encuestas.length){
+                        if(encuestas.length >= 0 && table.rows.length != encuestas.length){
                             while(table.rows.length > 0) {
                                 table.deleteRow(0);
                             }
@@ -122,7 +174,35 @@
             db.encuestas.delete(idEncuesta);
             llenarTabla();
         }
+
+        function modificarEncuesta(id){
+            var db = new Dexie("EncuestasDB");
+            db.version(1).stores({
+                encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+            });
+
+			db.encuestas.get(id,function (encuesta) {
+				$("#nombre-modificar").val(encuesta.nombre);
+                $("#sector-modificar").val(encuesta.sector);
+                $("#nivel-modificar").val(encuesta.nivel);
+                $("#guardar-modificacion").click(actualizarEncuesta(id));
+
+				console.log("Nombre: " +  encuesta.nombre.toString() + " Sector: " + encuesta.sector.toString() + " Nivel: " + encuesta.nivel.toString());
+			});
+        }
+
+        function actualizarEncuesta(id){
+
+            var db = new Dexie("EncuestasDB");
+            db.version(1).stores({
+                encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+            });
+
+            db.encuestas.put({idEncuesta: id, nombre: $('#nombre-modificar').val(), sector: $("#sector-modificar").val(), nivel: $("#nivel-modificar").val()});
+            llenarTabla();
+        }
 	</script>
     <script>document.getElementById("btn_refresh").click();</script>
+
 </body>
 </html>
