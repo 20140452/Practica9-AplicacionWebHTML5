@@ -36,6 +36,9 @@
             <div class="refresh">
                 <button onclick="sincronizarEncuestas()" class="btn btn-success" id="sincronizar-btn"> <i class="fas fa-upload"></i> Sincronizar Encuestas </button>
             </div>
+            <div class="refresh">
+                <button class="btn btn-success" onclick="window.location='/listaEncuestasDB';"> <i class="fas fa-table"></i> Ver Datos Online </button>
+            </div>
 
             <div class="wrap-table100">
 				<div class="table100">
