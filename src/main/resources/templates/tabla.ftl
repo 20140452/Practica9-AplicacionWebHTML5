@@ -23,6 +23,7 @@
 <style>
     .refresh{
         padding-bottom: 20px;
+        margin-left: 36px;
     }
 </style>
 </head>
@@ -33,7 +34,7 @@
                 <button onclick="llenarTabla();" class="btn btn-success" id="btn_refresh"> <i class="fas fa-sync-alt"></i> Actualizar Tabla </button>
             </div>
             <div class="refresh">
-                <button onclick="sincronizarEncuestas()" class="btn btn-success" id="sincronizar-btn"> <i class="fas fa-sync-alt"></i> Sincronizar Encuestas </button>
+                <button onclick="sincronizarEncuestas()" class="btn btn-success" id="sincronizar-btn"> <i class="fas fa-upload"></i> Sincronizar Encuestas </button>
             </div>
 
             <div class="wrap-table100">
@@ -205,26 +206,30 @@
             llenarTabla();
         }
         function sincronizarEncuestas(){
-            var db = new Dexie("EncuestasDB");
-            db.version(1).stores({
-                encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
-            });
+            var table = document.getElementsByTagName("tbody")[0];
 
-            db.encuestas
-                    .toArray()
-                    .then(function (encuestas) {
-                        var encuestasJson = JSON.stringify(encuestas);
-                        $.ajax({
-                            data: encuestasJson,
-                            type: 'POST',
-                            url: "/sincronizarEncuestas",
-                            success: function () {
-                                db.encuestas.clear();
-                                llenarTabla();
-                                alert("Las encuestas han sido enviadas al servidor satisfactoriamente");
-                            }
-                        })
-                    });
+            if(table.rows.length > 0 ){
+                var db = new Dexie("EncuestasDB");
+                db.version(1).stores({
+                    encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+                });
+
+                db.encuestas
+                        .toArray()
+                        .then(function (encuestas) {
+                            var encuestasJson = JSON.stringify(encuestas);
+                            $.ajax({
+                                data: encuestasJson,
+                                type: 'POST',
+                                url: "/sincronizarEncuestas",
+                                success: function () {
+                                    db.encuestas.clear();
+                                    llenarTabla();
+                                    alert("Las encuestas han sido enviadas al servidor satisfactoriamente");
+                                }
+                            })
+                        });
+            }
         }
 	</script>
     <script>document.getElementById("btn_refresh").click();</script>
