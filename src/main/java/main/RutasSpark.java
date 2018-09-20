@@ -1,5 +1,8 @@
 package main;
 
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import entidades.ServiciosEncuestas;
 import entidades.ServiciosNivelEducativo;
 import entidades.ServiciosSectores;
@@ -7,7 +10,7 @@ import freemarker.template.Configuration;
 import logical.*;
 import spark.ModelAndView;
 import spark.template.freemarker.FreeMarkerEngine;
-
+import servicios.JsonTransformer;
 import java.util.*;
 import java.util.List;
 
@@ -99,6 +102,14 @@ public class RutasSpark {
             attributes.put("nivelesEducativos",listaNiveles);
             return new ModelAndView(attributes, "offline.html");
         }, freeMarkerEngine);
+
+        post("/sincronizarEncuestas",((request, response) -> {
+            String encuestasJSON = request.body();
+            System.out.println(encuestasJSON);
+            ServiciosEncuestas.getInstancia().guardarEncuestas(encuestasJSON);
+            System.out.println("Las encuestas han sido almacenadas con éxito!");
+            return "";
+        }));
 
 
     }

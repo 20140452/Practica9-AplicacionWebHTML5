@@ -1,23 +1,32 @@
 package servicios;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import spark.ResponseTransformer;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
-import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
-
-public class JsonTransformer{
-
+public class JsonTransformer {
     private static Gson gson = new GsonBuilder().serializeNulls().create();
 
-
-    public static String render(Object model) {
-        return gson.toJson(model);
+    public static String toJson(Object object) {
+        return gson.toJson(object);
     }
 
-    public static ResponseTransformer json(){
-        return JsonTransformer::render;
+    public static Map<String, Object> jsonToMap(String json) {
+        Map<String, Object> map = gson.fromJson(json, new TypeToken<HashMap<String, Object>>() {
+        }.getType());
+
+        return map;
     }
+
+    public static JsonObject stringToJsonObject(String jsonString) {
+        return new JsonParser().parse(jsonString).getAsJsonObject();
+    }
+
+    public static JsonArray stringToJsonArray(String jsonString) {
+        return new JsonParser().parse(jsonString).getAsJsonArray();
+    }
+
 
 }

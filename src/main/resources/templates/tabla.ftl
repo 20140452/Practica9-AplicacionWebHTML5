@@ -32,6 +32,10 @@
             <div class="refresh">
                 <button onclick="llenarTabla();" class="btn btn-success" id="btn_refresh"> <i class="fas fa-sync-alt"></i> Actualizar Tabla </button>
             </div>
+            <div class="refresh">
+                <button onclick="sincronizarEncuestas()" class="btn btn-success" id="sincronizar-btn"> <i class="fas fa-sync-alt"></i> Sincronizar Encuestas </button>
+            </div>
+
             <div class="wrap-table100">
 				<div class="table100">
 					<table id="tablaEncuestas">
@@ -66,7 +70,7 @@
                 </div>
                 <div class="modal-body" style="padding:40px 50px;">
                     <form role="form">
-                        <div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!" required>
+                        <div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!" requjdbc:h2:tcp://localhost/~/encuestasDBired>
                             <span class="label-input100">Nombre completo</span>
                             <input id="nombre-modificar" class="input100" type="text" name="nombre" placeholder="Entra el nombre de la persona">
                         </div>
@@ -192,7 +196,6 @@
         }
 
         function actualizarEncuesta(id){
-
             var db = new Dexie("EncuestasDB");
             db.version(1).stores({
                 encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
@@ -200,6 +203,28 @@
 
             db.encuestas.put({idEncuesta: id, nombre: $('#nombre-modificar').val(), sector: $("#sector-modificar").val(), nivel: $("#nivel-modificar").val()});
             llenarTabla();
+        }
+        function sincronizarEncuestas(){
+            var db = new Dexie("EncuestasDB");
+            db.version(1).stores({
+                encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+            });
+
+            db.encuestas
+                    .toArray()
+                    .then(function (encuestas) {
+                        var encuestasJson = JSON.stringify(encuestas);
+                        $.ajax({
+                            data: encuestasJson,
+                            type: 'POST',
+                            url: "/sincronizarEncuestas",
+                            success: function () {
+                                db.encuestas.clear();
+                                llenarTabla();
+                                alert("Las encuestas han sido enviadas al servidor satisfactoriamente");
+                            }
+                        })
+                    });
         }
 	</script>
     <script>document.getElementById("btn_refresh").click();</script>

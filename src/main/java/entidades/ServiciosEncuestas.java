@@ -1,9 +1,10 @@
 package entidades;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import logical.Encuesta;
-import logical.NivelEducativo;
-import logical.Sector;
 import servicios.MetodosDB;
+import servicios.JsonTransformer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -195,5 +196,18 @@ public class ServiciosEncuestas extends MetodosDB<Encuesta> {
         for(String s : listString.split(","))
             niveles.add(s.trim());
         return niveles;
+    }
+
+    public void guardarEncuestas(String encuestasJSON){
+        JsonArray encuestas = JsonTransformer.stringToJsonArray(encuestasJSON);
+        System.out.printf("Encuestas JSON: %s" , encuestas.get(0).getAsJsonObject().get("nombre"));
+
+        for (int i=0; i < encuestas.size(); i++){
+            //System.out.println("Nombre: " + encuesta.get("nombre").getAsString() + " Sector: "+ encuesta.get("sector").getAsString() + "Nivel: " + encuesta.get("nivel").getAsString() + " Longitud: " + encuesta.get("longitud").getAsString() + "Latitud: " + encuesta.get("latitud").getAsString());
+            getInstancia().crear(new Encuesta(encuestas.get(i).getAsJsonObject().get("nombre").getAsString(),ServiciosSectores.getInstancia().findBySector(encuestas.get(i).getAsJsonObject().get("sector").getAsString()),
+                    ServiciosNivelEducativo.getInstancia().findByNivel(encuestas.get(i).getAsJsonObject().get("nivel").getAsString()),Double.valueOf(encuestas.get(i).getAsJsonObject().get("latitud").getAsString()),Double.valueOf(encuestas.get(i).getAsJsonObject().get("longitud").getAsString())));
+        }
+
+        System.out.println("Las encuestas han sido almacenadas correctamente");
     }
 }

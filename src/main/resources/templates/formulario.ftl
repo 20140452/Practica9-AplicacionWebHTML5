@@ -203,7 +203,7 @@
   gtag('config', 'UA-23581568-13');
 </script>
 <script>
-	let db = new Dexie("EncuestasDB");
+	var db = new Dexie("EncuestasDB");
 	db.version(1).stores({
 		encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
 	});
@@ -218,7 +218,7 @@
 
         console.log("Nombre: " + nombre +" Sector: " + sector + " Nivel: "+ nivel + " Latitud: " + lat + " Longitud" + lon);
         db.encuestas.add({nombre: nombre, sector: sector, nivel: nivel, longitud: lon, latitud: lat});
-        alert("    - Se ha guardado la encuesta en el registro local.");
+        alert("- Se ha guardado la encuesta en el registro local.");
     }
 </script>
 </body>
