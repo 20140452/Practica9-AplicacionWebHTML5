@@ -194,7 +194,6 @@
   gtag('config', 'UA-23581568-13');
 </script>
 <script>
-
 	var db = new Dexie("EncuestasDB");
 	db.version(1).stores({
 		encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
@@ -219,15 +218,6 @@
             db.encuestas.add({nombre: nombre, sector: sector, nivel: nivel, longitud: lon, latitud: lat});
         });
     }
-
-    function actualizarEncuesta(encuesta){
-        db.encuestas.put({nombre: encuesta.nombre, sector: encuesta.sector, nivel: encuesta.nivel, longitud: encuesta.longitud, latitud: encuesta.latitud});
-    }
-
-    function eliminarEncuesta(idEncuesta){
-        db.encuestas.delete(idEncuesta);
-    }
-
 </script>
 </body>
 </html>

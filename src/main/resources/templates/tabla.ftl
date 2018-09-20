@@ -22,10 +22,11 @@
 <body>
 	
 	<div class="limiter">
+        <button onclick="llenarTabla();" class="btn btn-success" > Actualizar Tabla </button>
 		<div class="container-table100">
 			<div class="wrap-table100">
 				<div class="table100">
-					<table>
+					<table id="tablaEncuestas">
 						<thead>
 							<tr class="table100-head">
 								<th class="column1">Código</th>
@@ -38,22 +39,80 @@
 								<th class="column8">Eliminar</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td class="column1">111</td>
-								<td class="column2">Adonis A. Veloz</td>
-								<td class="column3">Santiago de los Caballeros</td>
-								<td class="column4">Grado Universitario</td>
-								<td class="column5">60.4444</td>
-								<td class="column6">70.1541</td>
-								<td class="column7"> <button class="btn btn-success" > Modificar </button> </td>
-								<td class="column8"> <button class="btn btn-success" > Eliminar </button> </td>
-							</tr>
+						<tbody id="tb">
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
+    <!-- Include Dexie -->
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+	<script>
+		function insertarFila(encuesta){
+            var table = document.getElementsByTagName("tbody")[0];
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+
+            var codigo = row.insertCell(0);
+            var nombre = row.insertCell(1);
+            var sector = row.insertCell(2);
+            var nivelEscolar = row.insertCell(3);
+            var lat = row.insertCell(4);
+            var lon = row.insertCell(5);
+            var modificarBtn = row.insertCell(6);
+            var eliminarBtn = row.insertCell(7);
+
+
+            codigo.className = "column1";
+            nombre.className = "column2";
+            sector.className = "column3";
+            nivelEscolar.className = "column4";
+            lat.className = "column5";
+            lon.className = "column6";
+            modificarBtn.className = "column7";
+            eliminarBtn.className = "column8";
+
+			codigo.innerHTML = encuesta.idEncuesta;
+            nombre.innerHTML = encuesta.nombre;
+            sector.innerHTML = encuesta.sector;
+            nivelEscolar.innerHTML = encuesta.nivel;
+            lat.innerHTML = encuesta.latitud;
+            lon.innerHTML = encuesta.longitud;
+            modificarBtn.innerHTML = '<button class="btn btn-success" > Modificar </button>';
+			eliminarBtn.innerHTML = '<button class="btn btn-success" > Eliminar </button>';
+        }
+        function llenarTabla() {
+            var db = new Dexie("EncuestasDB");
+            db.version(1).stores({
+                encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+            });
+
+            db.encuestas
+					.toArray()
+                    .then(function (encuestas) {
+                        var table = document.getElementsByTagName("tbody")[0];
+                        if(encuestas.length > 0 && table.rows.length != encuestas.length){
+                            while(table.rows.length > 0) {
+                                table.deleteRow(0);
+                            }
+                            for(var i=0; i < encuestas.length; i++ ){
+                                console.log(encuestas.toString());
+                                insertarFila(encuestas[i]);
+                            }
+						}
+                    });
+        }
+
+        function eliminarEncuesta(idEncuesta){
+            var db = new Dexie("EncuestasDB");
+            db.version(1).stores({
+                encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
+            });
+            db.encuestas.delete(idEncuesta);
+            llenarTabla();
+        }
+	</script>
 </body>
 </html>
