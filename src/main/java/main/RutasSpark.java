@@ -32,7 +32,7 @@ public class RutasSpark {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("sectores",listaSectores);
             attributes.put("nivelesEducativos",listaNiveles);
-            return new ModelAndView(attributes, "formulario.html");
+            return new ModelAndView(attributes, "formulario.ftl");
         }, freeMarkerEngine);
 
         post("/registrarEncuesta", (request, response) -> {
@@ -79,7 +79,7 @@ public class RutasSpark {
         get("/listaEncuestasDB", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("encuestas",ServiciosEncuestas.getInstancia().findAll());
-            return new ModelAndView(attributes, "tabla.html");
+            return new ModelAndView(attributes, "tabla.ftl");
         }, freeMarkerEngine);
 
         get("mapa/:lat/:lon", (request, response) -> {

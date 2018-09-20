@@ -42,6 +42,9 @@
             border-top: none;
         }
     </style>
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+
 </head>
 <body>
 
@@ -51,11 +54,12 @@
 </div>
 
 <div id="formulario" class="tabcontent">
-    <div w3-include-html="formulario.html"></div>
+    <!--div w3-include-html="formulario.html"></div-->
+    <#include "formulario.ftl">
 </div>
 
 <div id="tabla" class="tabcontent">
-    <div w3-include-html="tabla.html"></div>
+    <#include "tabla.ftl">
 </div>
 
 <script>
@@ -77,7 +81,7 @@
     document.getElementById("defaultOpen").click();
 </script>
 
-<script>
+<!--script>
     function includeHTML() {
         var z, i, elmnt, file, xhttp;
         /*loop through a collection of all HTML elements:*/
@@ -105,13 +109,14 @@
             }
         }
     }
-</script>
+</--script>
 
 <script>
     includeHTML();
-</script>
+</script-->
 <!--===============================================================================================-->
 <script src="js/geolocation.js"></script>
 <!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
 </body>
 </html> 
