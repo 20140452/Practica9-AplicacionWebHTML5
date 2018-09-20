@@ -43,12 +43,12 @@ public class RutasSpark {
                 String geolocation = request.queryParams("geolocalizacion").replace("Ubicación Actual: (",
                         "").replace(")","");
 
-                float latitud = 0;
-                float longitud = 0;
+                double latitud = 0;
+                double longitud = 0;
 
                 if(!geolocation.equals("No se pudo obtener su localización...")) {
-                    latitud = Float.parseFloat(geolocation.split(",")[0].trim());
-                    longitud = Float.parseFloat(geolocation.split(",")[0].trim());
+                    latitud = Double.parseDouble(geolocation.split(",")[0].trim());
+                    longitud = Double.parseDouble(geolocation.split(",")[0].trim());
                 }
 
                 //Encuesta nuevaEncuesta = new Encuesta(nombre,new Sector(sector), new NivelEducativo(nivel),latitud,longitud);
@@ -88,8 +88,8 @@ public class RutasSpark {
             Double longitud = Double.valueOf(request.params("lon"));
             //String weatherJSON = WeatherAPI.getInstancia().getWeatherData(19.22,-70.53);
             System.out.println("Latitud:" +latitud + " Longitud: " + longitud );
-            attributes.put("lat", latitud);
-            attributes.put("lon", longitud);
+            attributes.put("lat", Double.toString(latitud));
+            attributes.put("lon", Double.toString(longitud));
             return new ModelAndView(attributes,"mapa.html");
         }, freeMarkerEngine);
 

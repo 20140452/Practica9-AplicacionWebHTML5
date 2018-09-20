@@ -46,9 +46,9 @@
 									<td class="column2">${encuesta.nombre}</td>
 									<td class="column3">${encuesta.sector.sector}</td>
 									<td class="column4">${encuesta.nivelEducacion.nivel}</td>
-									<td class="column5">${encuesta.latitud}</td>
-									<td class="column6">${encuesta.longitud}</td>
-									<td class="column8"><button class="btn btn-success" onclick=" window.open('/mapa/${encuesta.latitud}/${encuesta.longitud}','_blank')"> Ver Mapa </button></td>
+									<td class="column5">${encuesta.latitudCorta()}</td>
+									<td class="column6">${encuesta.longitudCorta()}</td>
+									<td class="column8"><button class="btn btn-success" onclick=" window.open('/mapa/${encuesta.latitudString()}/${encuesta.longitudString()}','_blank')"> Ver Mapa </button></td>
 								</tr>
 							</#list>
 						</tbody>
