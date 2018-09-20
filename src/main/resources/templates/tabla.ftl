@@ -66,12 +66,12 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" style="padding:35px 50px;">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button id="cerrar-modal" type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4><span class="glyphicon glyphicon-lock"></span> Modificar Encuesta </h4>
                 </div>
                 <div class="modal-body" style="padding:40px 50px;">
                     <form role="form">
-                        <div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!" requjdbc:h2:tcp://localhost/~/encuestasDBired>
+                        <div class="wrap-input100 validate-input bg1" data-validate="Se debe entrar el nombre de la persona!">
                             <span class="label-input100">Nombre completo</span>
                             <input id="nombre-modificar" class="input100" type="text" name="nombre" placeholder="Entra el nombre de la persona">
                         </div>
@@ -148,6 +148,7 @@
 			eliminarBtn.innerHTML = '<button class="btn btn-success" > Eliminar </button>';
 			eliminarBtn.onclick = function() {eliminarEncuesta(encuesta.idEncuesta)};
 			modificarBtn.onclick = function () { modificarEncuesta(encuesta.idEncuesta) };
+            document.getElementById("guardar-modificacion").onclick = function () { actualizarEncuesta(encuesta.idEncuesta)};
         }
         function llenarTabla() {
             var db = new Dexie("EncuestasDB");
@@ -190,7 +191,6 @@
 				$("#nombre-modificar").val(encuesta.nombre);
                 $("#sector-modificar").val(encuesta.sector);
                 $("#nivel-modificar").val(encuesta.nivel);
-                $("#guardar-modificacion").click(actualizarEncuesta(id));
 
 				console.log("Id: " + id  + "Nombre: " +  encuesta.nombre.toString() + " Sector: " + encuesta.sector.toString() + " Nivel: " + encuesta.nivel.toString());
 			});
@@ -202,8 +202,16 @@
                 encuestas: '++idEncuesta,nombre,sector,nivel,longitud,latitud'
             });
 
-            db.encuestas.put({idEncuesta: id, nombre: $('#nombre-modificar').val(), sector: $("#sector-modificar").val(), nivel: $("#nivel-modificar").val()});
-            llenarTabla();
+            db.encuestas.update(parseInt(id),{ nombre: $('#nombre-modificar').val(), sector: $("#sector-modificar").val(), nivel: $("#nivel-modificar").val()})
+                    .then(function () {
+                        var table = document.getElementsByTagName("tbody")[0];
+                        while(table.rows.length > 0) {
+                            table.deleteRow(0);
+                        }
+                        llenarTabla();
+                        $("#cerrar-modal").click();
+                        alert("La encuesta " + id + " ha sido modificada con éxito");
+                    });
         }
         function sincronizarEncuestas(){
             var table = document.getElementsByTagName("tbody")[0];
