@@ -62,7 +62,7 @@
 				<div class="wrap-input100 input100-select bg1" data-validate="Se debe entrar el sector de la persona!">
 					<span class="label-input100">Sector</span>
 					<div>
-						<select class="js-select2" name="sector">
+						<select id="sector" class="js-select2" name="sector">
 							<option>Elige el sector</option>
 							<#list sectores as sector>
 								<option>${sector.sector}</option>
@@ -75,7 +75,7 @@
 				<div class="wrap-input100 input100-select bg1" data-validate="Se debe entrar el nivel escolar de la persona!">
 					<span class="label-input100">Nivel escolar</span>
 					<div>
-						<select class="js-select2" name="nivel">
+						<select id="nivel" class="js-select2" name="nivel">
 							<option>Elige el nivel educativo</option>
 							<#list nivelesEducativos as nivel>
 								<option>${nivel.nivel}</option>
@@ -218,8 +218,16 @@
 
         console.log("Nombre: " + nombre +" Sector: " + sector + " Nivel: "+ nivel + " Latitud: " + lat + " Longitud" + lon);
         db.encuestas.add({nombre: nombre, sector: sector, nivel: nivel, longitud: lon, latitud: lat});
-        alert("- Se ha guardado la encuesta en el registro local.");
+        alert(" Se ha guardado la encuesta en el registro local.");
+        borrarCampos();
     }
+
+    function borrarCampos(){
+        document.getElementsByName("nombre")[0].value = '';
+        $('#sector').val($("#sector option:first").val()).trigger('change.select2');
+        $('#nivel').val($("#nivel option:first").val()).trigger('change.select2');
+    }
+
 </script>
 </body>
 </html>
