@@ -36,9 +36,6 @@
             <div class="refresh">
                 <button onclick="sincronizarEncuestas()" class="btn btn-success" id="sincronizar-btn"> <i class="fas fa-upload"></i> Sincronizar Encuestas </button>
             </div>
-            <div class="refresh">
-                <button class="btn btn-success" onclick="window.location='/listaEncuestasDB';"> <i class="fas fa-table"></i> Ver Datos Online </button>
-            </div>
 
             <div class="wrap-table100">
 				<div class="table100">
@@ -242,8 +239,36 @@
                         });
             }
         }
+
+        function borrarCampos(){
+            document.getElementsByName("nombre-modificar")[0].value = '';
+            $('#sector-modificar').val($("#sector-modificar option:first").val()).trigger('change.select2');
+            $('#nivel-modificar').val($("#nivel-modificar option:first").val()).trigger('change.select2');
+        }
 	</script>
     <script>document.getElementById("btn_refresh").click();</script>
+    <script src="vendor/select2/select2.min.js"></script>
+    <script>
+        $(".js-select2").each(function(){
+            $(this).select2({
+                minimumResultsForSearch: 20,
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+
+
+            $(".js-select2").each(function(){
+                $(this).on('select2:close', function (e){
+                    if($(this).val() == "Please chooses") {
+                        $('.js-show-service').slideUp();
+                    }
+                    else {
+                        $('.js-show-service').slideUp();
+                        $('.js-show-service').slideDown();
+                    }
+                });
+            });
+        })
+    </script>
 
 </body>
 </html>
